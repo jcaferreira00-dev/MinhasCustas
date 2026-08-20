@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#0A0F1C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Meu Escritório</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0">
+<style>
+  :root{
+    --ink:#0A0F1C;
+    --surface:#121A2B;
+    --surface-2:#1A2540;
+    --line:rgba(201,162,39,.14);
+    --line-strong:rgba(201,162,39,.28);
+    --gold:#C9A227;
+    --gold-soft:#E8C766;
+    --emerald:#4FAE7C;
+    --rust:#C1554A;
+    --text:#F2ECDD;
+    --muted:#8B93A7;
+    --safe-t:env(safe-area-inset-top,0px);
+    --safe-b:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 50% -10%, rgba(201,162,39,.08), transparent 55%),
+      var(--ink);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding: calc(var(--safe-t) + 20px) 16px calc(var(--safe-b) + 16px);
+  }
+  .card{
+    width:100%;
+    max-width:480px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  /* ---------- header ---------- */
+  header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    padding:2px 2px 0;
+  }
+  .eyebrow{
+    font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--gold);
+    margin:0 0 6px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:26px;
+    margin:0;
+    color:var(--text);
+    line-height:1.15;
+  }
+  .tools-btn{
+    width:40px; height:40px;
+    border-radius:50%;
+    border:1px solid var(--line-strong);
+    background:var(--surface);
+    color:var(--muted);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:border-color .2s, color .2s;
+  }
+  .tools-btn:hover{ color:var(--gold-soft); border-color:var(--gold); }
+  .tools-btn .material-symbols-outlined{ font-size:20px; }
+
+  /* ---------- selo / saldo ---------- */
+  .selo-wrap{
+    display:flex;
+    justify-content:center;
+    padding: 14px 0 6px;
+  }
+  .selo{
+    position:relative;
+    width:220px; height:220px;
+    border-radius:50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:6px;
+    padding:0 22px;
+    animation: respirar 4.5s ease-in-out infinite;
+  }
+  .selo::before{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:50%;
+    border:1.5px dashed var(--line-strong);
+    animation: girar 60s linear infinite;
+  }
+  .selo::after{
+    content:"";
+    position:absolute; inset:12px;
+    border-radius:50%;
+    border:1px solid var(--line);
+  }
+  @keyframes girar{ to{ transform:rotate(360deg); } }
+  @keyframes respirar{
+    0%, 100%{ box-shadow:0 0 0 0 rgba(201,162,39,0); }
+    50%{ box-shadow:0 0 26px 4px rgba(201,162,39,.14); }
+  }
+  .selo .material-symbols-outlined{
+    font-size:30px;
+    color:var(--gold);
+    opacity:.85;
+    position:relative;
+    z-index:1;
+  }
+  .selo-label{
+    font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums;
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--muted);
+    margin-top:2px;
+    position:relative; z-index:1;
+  }
+  .selo-valor{
+    font-family:'Fraunces', serif;
+    font-size:27px;
+    font-weight:500;
+    letter-spacing:-.01em;
+    position:relative; z-index:1;
+    max-width:100%;
+    text-align:center;
+    line-height:1.1;
+    transition:font-size .15s;
+  }
+  .selo-valor.pos{ color:var(--gold-soft); }
+  .selo-valor.neg{ color:var(--rust); }
+  .selo-valor.size-md{ font-size:21px; }
+  .selo-valor.size-sm{ font-size:17px; }
+  @media (prefers-reduced-motion: reduce){
+    .selo, .selo::before{ animation:none; }
+  }
+
+  /* ---------- stat pills ---------- */
+  .stats{
+    display:flex;
+    gap:10px;
+  }
+  .stat{
+    flex:1;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:12px 14px;
+  }
+  .stat-label{
+    font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums;
+    font-size:10px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--muted);
+    display:flex; align-items:center; gap:5px;
+    margin-bottom:6px;
+  }
+  .stat-label .material-symbols-outlined{ font-size:14px; }
+  .stat-val{
+    font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums;
+    font-size:16px;
+    font-weight:600;
+  }
+  .stat.invest .stat-val{ color:var(--rust); }
+  .stat.receb .stat-val{ color:var(--emerald); }
+
+  /* ---------- form ---------- */
+  form{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .toggle{
+    display:flex;
+    background:var(--ink);
+    border-radius:12px;
+    padding:4px;
+    gap:4px;
+  }
+  .toggle button{
+    flex:1;
+    border:none;
+    background:transparent;
+    color:var(--muted);
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:13px;
+    padding:9px 0;
+    border-radius:9px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    transition:background .18s, color .18s;
+  }
+  .toggle button .material-symbols-outlined{ font-size:16px; }
+  .toggle button.active[data-tipo="investido"]{ background:rgba(193,85,74,.16); color:var(--rust); }
+  .toggle button.active[data-tipo="recebido"]{ background:rgba(79,174,124,.16); color:var(--emerald); }
+
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  .field label{
+    font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums;
+    font-size:10px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--muted);
+  }
+  input[type=text], input[type=date], select, .valor-input{
+    background:var(--ink);
+    border:1px solid var(--line-strong);
+    border-radius:10px;
+    padding:11px 12px;
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    font-size:15px;
+    outline:none;
+    width:100%;
+    transition:border-color .15s;
+  }
+  input:focus, select:focus{ border-color:var(--gold); }
+  .valor-input{
+    font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums;
+    font-size:20px;
+    font-weight:600;
+  }
+  select{ appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%238B93A7'><path d='M3 5l4 4 4-4' stroke='%238B93A7' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat; background-position:right 12px center;
+    padding-right:32px;
+  }
+  .row2{ display:flex; gap:10px; }
+  .row2 .field{ min-width:0; }
+  .row2 .field.data{ flex:0 0 118px; }
+  .row2 .field.cat{ flex:1; min-width:0; }
+  input[type=date]{ padding:11px 8px; font-size:13.5px; }
+  input[type=date]::-webkit-datetime-edit{ padding:0; }
+
+  .add-btn{
+    margin-top:2px;
+    border:none;
+    border-radius:12px;
+    padding:13px;
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:.02em;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:7px;
+    background:var(--gold);
+    color:#1a1305;
+    transition:filter .15s, transform .1s;
+  }
+  .add-btn:active{ transform:scale(.98); }
+  .add-btn:hover{ filter:brightness(1.08); }
+  .add-btn .material-symbols-outlined{ font-size:18px; }
+
+  /* ---------- lista ---------- */
+  .lista-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    padding:0 4px;
+  }
+  .lista-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:16px;
+    color:var(--text);
+    margin:0;
+  }
+  .lista-head span{
+    font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .mes-grupo{ display:flex; flex-direction:column; gap:0; }
+  .mes-titulo{
+    font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums;
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--gold);
+    padding:14px 4px 8px;
+  }
+  .entrada{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 4px;
+    border-bottom:1px solid var(--line);
+  }
+  .entrada .icone{
+    width:34px; height:34px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .entrada[data-tipo="investido"] .icone{ background:rgba(193,85,74,.14); color:var(--rust); }
+  .entrada[data-tipo="recebido"] .icone{ background:rgba(79,174,124,.14); color:var(--emerald); }
+  .entrada .icone .material-symbols-outlined{ font-size:17px; }
+  .entrada .info{ flex:1; min-width:0; }
+  .entrada .desc{ font-size:14px; font-weight:500; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .entrada .meta{ font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums; font-size:11px; color:var(--muted); margin-top:2px; }
+  .entrada .valor{ font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums; font-weight:600; font-size:14px; flex-shrink:0; }
+  .entrada[data-tipo="investido"] .valor{ color:var(--rust); }
+  .entrada[data-tipo="recebido"] .valor{ color:var(--emerald); }
+  .entrada .del{
+    background:none; border:none; color:var(--muted); opacity:.5;
+    cursor:pointer; padding:4px; display:flex; flex-shrink:0;
+    transition:opacity .15s, color .15s;
+  }
+  .entrada .del:hover{ opacity:1; color:var(--rust); }
+  .entrada .del .material-symbols-outlined{ font-size:18px; }
+
+  .vazio{
+    text-align:center;
+    padding:34px 10px;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.6;
+  }
+  .vazio .material-symbols-outlined{ font-size:26px; color:var(--line-strong); display:block; margin:0 auto 8px; }
+
+  footer{
+    text-align:center;
+    font-family:'Inter', sans-serif; font-variant-numeric:tabular-nums;
+    font-size:10.5px;
+    color:var(--muted);
+    padding:6px 20px 4px;
+    line-height:1.6;
+  }
+
+  /* ---------- modal ---------- */
+  .modal-bg{
+    position:fixed; inset:0; background:rgba(6,9,16,.68);
+    display:flex; align-items:flex-end; justify-content:center;
+    z-index:50; opacity:0; pointer-events:none; transition:opacity .2s;
+    padding: 0 0 var(--safe-b);
+  }
+  .modal-bg.show{ opacity:1; pointer-events:auto; }
+  @media (min-width:560px){ .modal-bg{ align-items:center; } }
+  .modal{
+    background:var(--surface-2);
+    border:1px solid var(--line-strong);
+    border-radius:20px 20px 0 0;
+    width:100%; max-width:420px;
+    padding:22px;
+    transform:translateY(16px);
+    transition:transform .22s;
+  }
+  .modal-bg.show .modal{ transform:translateY(0); }
+  @media (min-width:560px){ .modal{ border-radius:20px; } }
+  .modal h3{
+    font-family:'Fraunces', serif; font-weight:500; font-size:18px; margin:0 0 8px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .modal h3 .material-symbols-outlined{ color:var(--gold); font-size:20px; }
+  .modal p{ font-size:13.5px; color:var(--muted); line-height:1.6; margin:0 0 18px; }
+  .input-icon{
+    display:flex; align-items:center; gap:8px;
+    background:var(--ink); border:1px solid var(--line-strong); border-radius:10px;
+    padding:0 12px; margin-bottom:10px;
+  }
+  .input-icon .material-symbols-outlined{ font-size:16px; color:var(--muted); flex-shrink:0; }
+  .input-icon input{
+    border:none; background:transparent; padding:12px 0; width:100%;
+    color:var(--text); font-family:'Inter', sans-serif; font-size:14px; outline:none;
+  }
+  .input-icon:focus-within{ border-color:var(--gold); }
+  .input-icon:focus-within .material-symbols-outlined{ color:var(--gold); }
+  .modal-nota{
+    font-size:11.5px; color:var(--muted); margin:2px 0 16px; line-height:1.5;
+    display:flex; gap:6px; align-items:flex-start;
+  }
+  .modal-nota .material-symbols-outlined{ font-size:14px; color:var(--gold); flex-shrink:0; margin-top:1px; }
+  .modal-actions{ display:flex; gap:10px; margin-top:6px; }
+  .modal-actions button{
+    flex:1; border-radius:10px; padding:12px; font-family:'Inter'; font-weight:600; font-size:13.5px;
+    cursor:pointer; border:1px solid var(--line-strong); background:transparent; color:var(--muted);
+  }
+  .modal-actions button.primary{ background:var(--gold); color:#1a1305; border-color:var(--gold); }
+  .modal-actions button.primary:hover{ filter:brightness(1.08); }
+  .modal-actions button.ghost:hover{ border-color:var(--gold); color:var(--gold-soft); }
+  .modal-toast{
+    font-size:12px; color:var(--gold-soft); background:rgba(201,162,39,.1);
+    border:1px solid var(--line-strong); border-radius:9px; padding:9px 11px;
+    margin-top:12px; display:none; align-items:center; gap:7px;
+  }
+  .modal-toast.show{ display:flex; }
+  .modal-toast .material-symbols-outlined{ font-size:15px; }
+
+  .confirm-msg{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:rgba(193,85,74,.1); border:1px solid rgba(193,85,74,.35);
+    border-radius:10px; padding:9px 10px; margin-top:-2px;
+  }
+  .confirm-msg span{ font-size:12.5px; color:var(--text); }
+  .confirm-msg .cbtns{ display:flex; gap:6px; }
+  .confirm-msg button{
+    border:none; border-radius:7px; padding:6px 10px; font-size:12px; font-weight:600; cursor:pointer;
+  }
+  .confirm-msg .sim{ background:var(--rust); color:#fff; }
+  .confirm-msg .nao{ background:var(--line-strong); color:var(--text); }
+
+  ::selection{ background:var(--gold); color:#1a1305; }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <header>
+    <div>
+      <p class="eyebrow">OAB</p>
+      <h1>Meu Escritório</h1>
+    </div>
+    <button class="tools-btn" id="btnTools" aria-label="Ferramentas">
+      <span class="material-symbols-outlined">settings</span>
+    </button>
+  </header>
+
+  <div class="selo-wrap">
+    <div class="selo">
+      <span class="material-symbols-outlined">balance</span>
+      <span class="selo-valor" id="saldoTotal">R$ 0,00</span>
+      <span class="selo-label">Saldo geral</span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat invest">
+      <div class="stat-label"><span class="material-symbols-outlined">trending_down</span>Investido</div>
+      <div class="stat-val" id="totalInvestido">R$ 0,00</div>
+    </div>
+    <div class="stat receb">
+      <div class="stat-label"><span class="material-symbols-outlined">trending_up</span>Recebido</div>
+      <div class="stat-val" id="totalRecebido">R$ 0,00</div>
+    </div>
+  </div>
+
+  <form id="formEntrada">
+    <div class="toggle" id="toggleTipo">
+      <button type="button" class="active" data-tipo="investido">
+        <span class="material-symbols-outlined">arrow_upward</span>Investi
+      </button>
+      <button type="button" data-tipo="recebido">
+        <span class="material-symbols-outlined">arrow_downward</span>Recebi
+      </button>
+    </div>
+
+    <div class="field">
+      <label for="inpValor">Valor</label>
+      <input class="valor-input" id="inpValor" inputmode="numeric" autocomplete="off" placeholder="R$ 0,00" value="R$ 0,00">
+    </div>
+
+    <div class="field">
+      <label for="inpDesc">Descrição</label>
+      <input type="text" id="inpDesc" placeholder="Ex.: Registro na OAB" autocomplete="off">
+    </div>
+
+    <div class="row2">
+      <div class="field data">
+        <label for="inpData">Data</label>
+        <input type="date" id="inpData">
+      </div>
+      <div class="field cat">
+        <label for="inpCat">Categoria</label>
+        <select id="inpCat">
+          <option>Registro/OAB</option>
+          <option>Material</option>
+          <option>Curso</option>
+          <option>Divulgação</option>
+          <option>Sistema/Software</option>
+          <option>Deslocamento</option>
+          <option>Honorários</option>
+          <option>Consultoria</option>
+          <option>Outro</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="add-btn">
+      <span class="material-symbols-outlined">add</span>Lançar
+    </button>
+  </form>
+
+  <div>
+    <div class="lista-head">
+      <h2>Lançamentos</h2>
+      <span id="contagem">0 registros</span>
+    </div>
+    <div id="lista"></div>
+  </div>
+
+  <footer>
+    Dados salvos apenas neste dispositivo.<br>
+    Sincronização entre aparelhos chega na v2.0.
+  </footer>
+
+</div>
+
+<!-- Modal ferramentas -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3><span class="material-symbols-outlined">cloud_sync</span>Sincronização</h3>
+    <p>Entre com a mesma conta dos seus outros apps para sincronizar o Meu Escritório entre o iPhone, o notebook e o PC.</p>
+    <div class="input-icon">
+      <span class="material-symbols-outlined">mail</span>
+      <input type="email" id="loginEmail" placeholder="E-mail" autocomplete="email">
+    </div>
+    <div class="input-icon">
+      <span class="material-symbols-outlined">lock</span>
+      <input type="password" id="loginSenha" placeholder="Senha" autocomplete="current-password">
+    </div>
+    <p class="modal-nota"><span class="material-symbols-outlined">info</span>A conexão com a nuvem entra em vigor na v2.0 — por enquanto os lançamentos ficam salvos só neste aparelho.</p>
+    <div class="modal-actions">
+      <button type="button" class="ghost" id="btnFechar">Fechar</button>
+      <button type="button" class="primary" id="btnEntrar">Entrar</button>
+    </div>
+    <div class="modal-toast" id="loginToast"><span class="material-symbols-outlined">schedule</span>Guardado — vamos ativar o login na v2.0.</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const KEY = 'livro_da_banca_v1';
+  const fmt = v => (v/100).toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+
+  let entradas = JSON.parse(localStorage.getItem(KEY) || '[]');
+  let tipoAtual = 'investido';
+  let centavos = 0; // valor sendo digitado, em centavos
+
+  const $ = id => document.getElementById(id);
+  const lista = $('lista');
+  const inpValor = $('inpValor');
+  const inpDesc = $('inpDesc');
+  const inpData = $('inpData');
+  const inpCat = $('inpCat');
+
+  inpData.valueAsDate = new Date();
+
+  // ---------- toggle tipo ----------
+  $('toggleTipo').addEventListener('click', e=>{
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    tipoAtual = btn.dataset.tipo;
+    document.querySelectorAll('#toggleTipo button').forEach(b=>b.classList.toggle('active', b===btn));
+    marcarSujo();
+  });
+
+  // ---------- máscara de valor (estilo caixa registradora) ----------
+  function renderValor(){
+    inpValor.value = fmt(centavos);
+  }
+  inpValor.addEventListener('keydown', e=>{
+    if(e.key >= '0' && e.key <= '9'){
+      centavos = centavos * 10 + Number(e.key);
+      if(centavos > 999999999) centavos = 999999999;
+      renderValor(); marcarSujo(); e.preventDefault();
+    } else if(e.key === 'Backspace'){
+      centavos = Math.floor(centavos/10);
+      renderValor(); marcarSujo(); e.preventDefault();
+    } else if(e.key.length === 1){
+      e.preventDefault();
+    }
+  });
+  inpValor.addEventListener('paste', e=>{
+    e.preventDefault();
+    const digits = (e.clipboardData.getData('text').match(/\d/g) || []).join('');
+    if(digits) centavos = Math.min(999999999, parseInt(digits,10));
+    renderValor(); marcarSujo();
+  });
+
+  // ---------- proteção contra sair digitando ----------
+  let sujo = false;
+  function marcarSujo(){ sujo = (centavos > 0 || inpDesc.value.trim().length > 0); }
+  inpDesc.addEventListener('input', marcarSujo);
+  window.addEventListener('beforeunload', e=>{
+    if(sujo){
+      e.preventDefault();
+      e.returnValue = '';
+      return '';
+    }
+  });
+
+  // ---------- salvar / render ----------
+  function salvar(){
+    localStorage.setItem(KEY, JSON.stringify(entradas));
+  }
+
+  function totais(){
+    let investido = 0, recebido = 0;
+    entradas.forEach(en=>{
+      if(en.tipo === 'investido') investido += en.valor;
+      else recebido += en.valor;
+    });
+    return {investido, recebido, saldo: recebido - investido};
+  }
+
+  const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+
+  function render(){
+    const t = totais();
+    $('totalInvestido').textContent = fmt(t.investido);
+    $('totalRecebido').textContent = fmt(t.recebido);
+    const saldoEl = $('saldoTotal');
+    let texto = fmt(Math.abs(t.saldo));
+    if(t.saldo < 0) texto = '- ' + texto;
+    saldoEl.textContent = texto;
+    saldoEl.classList.toggle('neg', t.saldo < 0);
+    saldoEl.classList.toggle('pos', t.saldo >= 0);
+    saldoEl.classList.remove('size-md','size-sm');
+    if(texto.length > 16) saldoEl.classList.add('size-sm');
+    else if(texto.length > 12) saldoEl.classList.add('size-md');
+    $('contagem').textContent = entradas.length + (entradas.length===1 ? ' registro' : ' registros');
+
+    if(entradas.length === 0){
+      lista.innerHTML = `<div class="vazio"><span class="material-symbols-outlined">history_edu</span>Nenhum lançamento ainda.<br>Comece registrando o primeiro centavo investido na banca.</div>`;
+      return;
+    }
+
+    const ordenadas = [...entradas].sort((a,b)=> b.data.localeCompare(a.data) || b.criadoEm - a.criadoEm);
+    const grupos = {};
+    ordenadas.forEach(en=>{
+      const d = new Date(en.data + 'T00:00:00');
+      const chave = d.getFullYear()+'-'+d.getMonth();
+      if(!grupos[chave]) grupos[chave] = {label: MESES[d.getMonth()] + ' de ' + d.getFullYear(), itens: []};
+      grupos[chave].itens.push(en);
+    });
+
+    lista.innerHTML = Object.values(grupos).map(g => `
+      <div class="mes-grupo">
+        <div class="mes-titulo">${g.label}</div>
+        ${g.itens.map(en => linhaHtml(en)).join('')}
+      </div>
+    `).join('');
+  }
+
+  function linhaHtml(en){
+    const d = new Date(en.data + 'T00:00:00');
+    const dataFmt = d.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'});
+    const icone = en.tipo === 'investido' ? 'arrow_upward' : 'arrow_downward';
+    const sinal = en.tipo === 'investido' ? '- ' : '+ ';
+    return `
+      <div class="entrada" data-tipo="${en.tipo}" data-id="${en.id}">
+        <div class="icone"><span class="material-symbols-outlined">${icone}</span></div>
+        <div class="info">
+          <div class="desc">${escapeHtml(en.desc)}</div>
+          <div class="meta">${dataFmt} · ${escapeHtml(en.categoria)}</div>
+        </div>
+        <div class="valor">${sinal}${fmt(en.valor)}</div>
+        <button class="del" aria-label="Excluir" data-id="${en.id}"><span class="material-symbols-outlined">delete</span></button>
+      </div>
+    `;
+  }
+
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // ---------- delete com confirmação inline ----------
+  lista.addEventListener('click', e=>{
+    const del = e.target.closest('.del');
+    if(!del) return;
+    const linha = del.closest('.entrada');
+    if(linha.querySelector('.confirm-msg')) return;
+    const id = del.dataset.id;
+    const box = document.createElement('div');
+    box.className = 'confirm-msg';
+    box.innerHTML = `<span>Excluir este lançamento?</span>
+      <div class="cbtns">
+        <button class="nao">Não</button>
+        <button class="sim">Excluir</button>
+      </div>`;
+    linha.appendChild(box);
+    box.querySelector('.nao').onclick = () => box.remove();
+    box.querySelector('.sim').onclick = () => {
+      entradas = entradas.filter(en => en.id !== id);
+      salvar(); render();
+    };
+  });
+
+  // ---------- submit ----------
+  $('formEntrada').addEventListener('submit', e=>{
+    e.preventDefault();
+    if(centavos <= 0){ inpValor.focus(); return; }
+    if(!inpDesc.value.trim()){ inpDesc.focus(); return; }
+
+    entradas.push({
+      id: 'e' + Date.now() + Math.random().toString(16).slice(2),
+      tipo: tipoAtual,
+      valor: centavos,
+      desc: inpDesc.value.trim(),
+      categoria: inpCat.value,
+      data: inpData.value,
+      criadoEm: Date.now()
+    });
+    salvar();
+
+    centavos = 0; renderValor();
+    inpDesc.value = '';
+    inpData.valueAsDate = new Date();
+    sujo = false;
+    render();
+  });
+
+  // ---------- modal ferramentas ----------
+  $('btnTools').addEventListener('click', () => $('modalBg').classList.add('show'));
+  $('btnFechar').addEventListener('click', () => $('modalBg').classList.remove('show'));
+  $('modalBg').addEventListener('click', e => { if(e.target.id === 'modalBg') $('modalBg').classList.remove('show'); });
+  $('btnEntrar').addEventListener('click', () => {
+    $('loginToast').classList.add('show');
+  });
+
+  renderValor();
+  render();
+})();
+</script>
+
+</body>
+</html>
